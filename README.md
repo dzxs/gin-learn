@@ -40,13 +40,25 @@ INSERT INTO `blog`.`blog_auth` (`id`, `username`, `password`) VALUES (null, 'tes
 ```
 
 ```bash
+go get -u github.com/gin-gonic/gin
 go get -u github.com/go-ini/ini
 go get -u github.com/Unknwon/com
 go get -u github.com/jinzhu/gorm
 go get -u github.com/go-sql-driver/mysql
 go get -u github.com/astaxie/beego/validation
+go get -u github.com/dgrijalva/jwt-go
 
 # tools
+brew install go
+
+brew install mysql
+brew cask install mysqlworkbench
+
 brew cask install goland
 brew cask install postman
+
+mysql.server start
+
+# set $GOPATH=`goland project path`
+
 ```
