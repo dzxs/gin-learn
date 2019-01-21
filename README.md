@@ -1,3 +1,6 @@
+https://github.com/EDDYCJY/blog
+
+```sql
 CREATE SCHEMA `blog` DEFAULT CHARACTER SET utf8 ;
 
 CREATE TABLE `blog_tag` (
@@ -34,8 +37,12 @@ CREATE TABLE `blog_auth` (
 
 INSERT INTO `blog`.`blog_auth` (`id`, `username`, `password`) VALUES (null, 'test', 'test123456');
 
+```
+
+```bash
 go get -u github.com/go-ini/ini
 go get -u github.com/Unknwon/com
 go get -u github.com/jinzhu/gorm
 go get -u github.com/go-sql-driver/mysql
 go get -u github.com/astaxie/beego/validation
+```
