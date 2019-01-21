@@ -45,4 +45,8 @@ go get -u github.com/Unknwon/com
 go get -u github.com/jinzhu/gorm
 go get -u github.com/go-sql-driver/mysql
 go get -u github.com/astaxie/beego/validation
+
+# tools
+brew cask install goland
+brew cask install postman
 ```
