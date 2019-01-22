@@ -5,12 +5,21 @@ import (
 	"github.com/astaxie/beego/validation"
 	"github.com/dzxs/blog/models"
 	"github.com/dzxs/blog/pkg/e"
+	"github.com/dzxs/blog/pkg/logging"
 	"github.com/dzxs/blog/pkg/setting"
 	"github.com/dzxs/blog/pkg/util"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
+// ShowAccount godoc
+// @Summary 获取单个文章
+// @Description get string by ID
+// @Accept  json
+// @Produce  json
+// @Param id path int true "ID"
+// @Success 200 {string} json "{"code":200,"data":{"id":3,"created_on":1516937037,"modified_on":0,"tag_id":11,"tag":{"id":11,"created_on":1516851591,"modified_on":0,"name":"312321","created_by":"4555","modified_by":"","state":1},"content":"5555","created_by":"2412","modified_by":"","state":1},"msg":"ok"}"
+// @Router /api/v1/articles/{id} [get]
 func GetArticle(c *gin.Context) {
 	id := com.StrTo(c.Param("id")).MustInt()
 
@@ -26,12 +35,11 @@ func GetArticle(c *gin.Context) {
 		} else {
 			code = e.ERROR_NOT_EXIST_ARTICLE
 		}
+	} else {
+		for _, err := range valid.Errors {
+			logging.Info(err.Key, err.Message)
+		}
 	}
-	//else {
-	//	for _, err := range valid.Errors {
-	//		logging.Info(err.Key, err.Message)
-	//	}
-	//}
 
 	c.JSON(http.StatusOK, gin.H{
 		"code": code,
@@ -63,12 +71,11 @@ func GetArticles(c *gin.Context) {
 		code = e.SUCCESS
 		data["lists"] = models.GetArticles(util.GetPage(c), setting.PageSize, maps)
 		data["total"] = models.GetArticleTotal(maps)
+	} else {
+		for _, err := range valid.Errors {
+			logging.Info(err.Key, err.Message)
+		}
 	}
-	//else {
-	//	for _, err := range valid.Errors {
-	//		logging.Info(err.Key, err.Message)
-	//	}
-	//}
 
 	c.JSON(http.StatusOK, gin.H{
 		"code": code,
@@ -109,12 +116,11 @@ func AddArticle(c *gin.Context) {
 		} else {
 			code = e.ERROR_NOT_EXIST_TAG
 		}
+	} else {
+		for _, err := range valid.Errors {
+			logging.Info(err.Key, err.Message)
+		}
 	}
-	//else {
-	//	for _, err := range valid.Errors {
-	//		logging.Info(err.Key, err.Message)
-	//	}
-	//}
 
 	c.JSON(http.StatusOK, gin.H{
 		"code": code,
@@ -169,6 +175,10 @@ func EditArticle(c *gin.Context) {
 				code = e.ERROR_NOT_EXIST_TAG
 			}
 		}
+	} else {
+		for _, err := range valid.Errors {
+			logging.Info(err.Key, err.Message)
+		}
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"code": code,
@@ -189,7 +199,11 @@ func DeleteArticle(c *gin.Context) {
 		} else {
 			code = e.ERROR_NOT_EXIST_ARTICLE
 		}
-	} else {}
+	} else {
+		for _, err := range valid.Errors {
+			logging.Info(err.Key, err.Message)
+		}
+	}
 	c.JSON(http.StatusOK, gin.H{
 		"code": code,
 		"msg": e.GetMsg(code),

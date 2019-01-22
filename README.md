@@ -48,6 +48,11 @@ go get -u github.com/go-sql-driver/mysql
 go get -u github.com/astaxie/beego/validation
 go get -u github.com/dgrijalva/jwt-go
 
+go get -u github.com/swaggo/swag/cmd/swag
+export GOBIN=$GOPATH/bin
+export PATH=$GOBIN:$PATH
+go get -u github.com/swaggo/gin-swagger
+swag init
 # tools
 brew install go
 

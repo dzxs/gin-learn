@@ -1,9 +1,14 @@
 package routers
 
 import (
+	"github.com/dzxs/blog/middleware/jwt"
 	"github.com/dzxs/blog/pkg/setting"
+	"github.com/dzxs/blog/routers/api"
 	"github.com/dzxs/blog/routers/api/v1"
 	"github.com/gin-gonic/gin"
+	"github.com/swaggo/gin-swagger"
+	"github.com/swaggo/gin-swagger/swaggerFiles"
+	_ "github.com/dzxs/blog/docs"
 )
 
 func InitRouter() *gin.Engine {
@@ -12,7 +17,10 @@ func InitRouter() *gin.Engine {
 	r.Use(gin.Recovery())
 	gin.SetMode(setting.RunMode)
 
+	r.GET("/auth", api.GetAuth)
+
 	apiv1 := r.Group("/api/v1")
+	apiv1.Use(jwt.JWT())
 
 	{
 		apiv1.GET("/tags", v1.GetTags)
@@ -27,5 +35,6 @@ func InitRouter() *gin.Engine {
 		apiv1.DELETE("/articles/:id", v1.DeleteArticle)
 	}
 
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	return r
 }

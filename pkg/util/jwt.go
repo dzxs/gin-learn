@@ -1,7 +1,6 @@
 package util
 
 import (
-	"crypto/tls"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/dzxs/blog/pkg/setting"
 	"time"
