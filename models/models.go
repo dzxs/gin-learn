@@ -6,7 +6,6 @@ import (
 	"github.com/jinzhu/gorm"
 	"log"
 	_ "github.com/go-sql-driver/mysql"
-	"syscall"
 	"time"
 )
 
@@ -16,7 +15,7 @@ type Model struct {
 	ID int `gorm:"primary_key" json:"id"`
 	CreatedOn int `json:"created_on"`
 	ModifiedOn int `json:"modified_on"`
-	DeletedOn `json:"deleted_on"`
+	DeletedOn int `json:"deleted_on"`
 }
 
 func init() {
