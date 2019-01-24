@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"github.com/dzxs/blog/models"
+	"github.com/dzxs/blog/pkg/logging"
 	"github.com/dzxs/blog/pkg/setting"
 	"github.com/dzxs/blog/routers"
 	"net/http"
@@ -23,13 +25,17 @@ import (
 // @host 127.0.0.1:8000
 // @BasePath /
 func main() {
+	setting.Setup()
+	models.Setup()
+	logging.Setup()
+
 	router := routers.InitRouter()
 
 	s := &http.Server{
-		Addr: fmt.Sprintf(":%d", setting.HTTPPort),
+		Addr: fmt.Sprintf(":%d", setting.ServerSetting.HttpPort),
 		Handler: router,
-		ReadTimeout: setting.ReadTimeout,
-		WriteTimeout: setting.WriteTimeout,
+		ReadTimeout: setting.ServerSetting.ReadTimeout,
+		WriteTimeout: setting.ServerSetting.WriteTimeout,
 		MaxHeaderBytes: 1 << 20,
 	}
 	s.ListenAndServe()

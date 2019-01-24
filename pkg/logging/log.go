@@ -2,6 +2,7 @@ package logging
 
 import (
 	"fmt"
+	"github.com/dzxs/blog/pkg/file"
 	"log"
 	"os"
 	"path/filepath"
@@ -27,9 +28,14 @@ const (
 	FATAL
 )
 
-func init() {
-	filePath := getLogFileFullPath()
-	F = openLogFile(filePath)
+func Setup() {
+	var err error
+	filePath := getLogFilePath()
+	fileName := getLogFileName()
+	F, err = file.MustOpen(fileName, filePath)
+	if err != nil {
+		log.Fatalf("logging.Setup err: %v", err)
+	}
 	logger = log.New(F, DefaultPrefix, log.LstdFlags)
 }
 
@@ -59,9 +65,9 @@ func Fatal(v ...interface{}) {
 }
 
 func setPrefix(level Level) {
-	_, file, line, ok := runtime.Caller(DefaultCallerDepth)
+	_, f, line, ok := runtime.Caller(DefaultCallerDepth)
 	if ok {
-		logPrefix = fmt.Sprintf("[%s][%s:%d]", levelFlags[level], filepath.Base(file), line)
+		logPrefix = fmt.Sprintf("[%s][%s:%d]", levelFlags[level], filepath.Base(f), line)
 	} else {
 		logPrefix = fmt.Sprintf("[%s]", levelFlags[level])
 	}
