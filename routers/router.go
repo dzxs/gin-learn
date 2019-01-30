@@ -1,14 +1,16 @@
 package routers
 
 import (
+	_ "github.com/dzxs/blog/docs"
 	"github.com/dzxs/blog/middleware/jwt"
 	"github.com/dzxs/blog/pkg/setting"
+	"github.com/dzxs/blog/pkg/upload"
 	"github.com/dzxs/blog/routers/api"
 	"github.com/dzxs/blog/routers/api/v1"
 	"github.com/gin-gonic/gin"
 	"github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
-	_ "github.com/dzxs/blog/docs"
+	"net/http"
 )
 
 func InitRouter() *gin.Engine {
@@ -17,8 +19,10 @@ func InitRouter() *gin.Engine {
 	r.Use(gin.Recovery())
 	gin.SetMode(setting.ServerSetting.RunMode)
 
+	r.StaticFS("/upload/images", http.Dir(upload.GetImageFullPath()))
 	r.GET("/auth", api.GetAuth)
-
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	r.POST("/upload", api.UploadImage)
 	apiv1 := r.Group("/api/v1")
 	apiv1.Use(jwt.JWT())
 
@@ -35,6 +39,6 @@ func InitRouter() *gin.Engine {
 		apiv1.DELETE("/articles/:id", v1.DeleteArticle)
 	}
 
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 	return r
 }
