@@ -67,7 +67,7 @@ brew cask install mysqlworkbench
 
 brew cask install goland
 brew cask install postman
-
+brew install redis
 mysql.server start
 
 # set $GOPATH=`goland project path`
