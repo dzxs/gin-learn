@@ -53,6 +53,7 @@ go get -u github.com/go-sql-driver/mysql
 go get -u github.com/astaxie/beego/validation
 go get -u github.com/dgrijalva/jwt-go
 go get -u github.com/robfig/cron
+go get github.com/gomodule/redigo/redis
 
 go get -u github.com/swaggo/swag/cmd/swag
 export GOBIN=$GOPATH/bin
